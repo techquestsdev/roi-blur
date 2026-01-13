@@ -18,6 +18,24 @@ A simple, interactive OpenCV-based utility for selecting regions of interest (RO
 - Python 3.8+
 - OpenCV 4.x
 
+### Quick Run with uvx (no install)
+
+```shell
+uvx --from git+https://github.com/techquestsdev/roi-blur roi-blur input.jpg output.jpg
+```
+
+### Install via uv (recommended)
+
+```shell
+# Clone and install
+git clone https://github.com/techquestsdev/roi-blur.git
+cd roi-blur
+uv sync
+
+# Run
+uv run roi-blur input.jpg output.jpg
+```
+
 ### Install via pip
 
 ```shell
@@ -29,16 +47,8 @@ cd roi-blur
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### Install via Poetry
-
-```shell
-git clone https://github.com/techquestsdev/roi-blur.git
-cd roi-blur
-poetry install
+# Install the package
+pip install -e .
 ```
 
 ## Usage
@@ -142,23 +152,31 @@ cv2.imwrite("blurred.jpg", result)
 
 ## Development
 
+### Setup
+
+```shell
+git clone https://github.com/techquestsdev/roi-blur.git
+cd roi-blur
+uv sync --all-extras
+```
+
 ### Running Tests
 
 ```shell
-pytest tests/ -v
+uv run pytest tests/ -v
 ```
 
 ### Code Quality
 
 ```shell
 # Linting
-ruff check roi_blur.py
+uv run ruff check roi_blur.py
 
 # Type checking
-mypy roi_blur.py
+uv run mypy roi_blur.py
 
 # Formatting
-black roi_blur.py
+uv run black roi_blur.py
 ```
 
 ### Project Structure
@@ -166,8 +184,8 @@ black roi_blur.py
 ```txt
 roi-blur/
 ├── roi_blur.py          # Main application
-├── requirements.txt     # Dependencies
-├── pyproject.toml       # Project configuration
+├── pyproject.toml       # Project configuration & dependencies
+├── uv.lock              # Locked dependencies
 ├── tests/
 │   └── test_roi_blur.py # Unit tests
 ├── LICENSE              # GPL-3.0

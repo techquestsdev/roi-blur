@@ -28,23 +28,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Cache pip packages
-        uses: actions/cache@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt', '**/pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-            ${{ runner.os }}-pip-
+          enable-cache: true
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: uv sync --all-extras --frozen
 
       - name: Run tests with coverage
         run: |
-          pytest tests/ -v --cov=roi_blur --cov-report=xml --cov-report=term-missing
+          uv run pytest tests/ -v --cov=roi_blur --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.14'
@@ -66,19 +60,22 @@ jobs:
         with:
           python-version: "3.14"
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ruff black mypy
+        run: uv sync --all-extras --frozen
 
       - name: Check formatting with Black
-        run: black --check --diff roi_blur.py tests/
+        run: uv run black --check --diff roi_blur.py tests/
 
       - name: Lint with Ruff
-        run: ruff check roi_blur.py tests/
+        run: uv run ruff check roi_blur.py tests/
 
       - name: Type check with mypy
-        run: mypy roi_blur.py --ignore-missing-imports
+        run: uv run mypy roi_blur.py --ignore-missing-imports
         continue-on-error: true # Type hints are WIP
 
   security:
@@ -96,16 +93,13 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install safety bandit
-
-      - name: Check for known vulnerabilities
-        run: safety check -r requirements.txt || true
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
       - name: Run Bandit security linter
-        run: bandit -r roi_blur.py -f sarif -o bandit-results.sarif || true
+        run: uvx bandit -r roi_blur.py -f sarif -o bandit-results.sarif || true
 
       - name: Upload Bandit results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
