@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/techquestsdev/roi-blur#readme
+    about: Read the documentation for help and examples
