@@ -3,7 +3,7 @@ name = "roi-blur"
 version = "1.0.0"
 description = "Interactive ROI selection tool to blur parts of an image for privacy redaction using OpenCV, with ICC color-profile preservation."
 authors = [{ name = "Andre Nogueira" }]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 readme = "README.md"
 license = { text = "GPL-3.0" }
 keywords = [
@@ -21,7 +21,6 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -64,7 +63,7 @@ py-modules = ["roi_blur"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.lint]
 select = [
@@ -86,7 +85,7 @@ ignore = [
 known-first-party = ["roi_blur"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -100,4 +99,4 @@ markers = [
 
 [tool.black]
 line-length = 100
-target-version = ["py38", "py39", "py310", "py311", "py312"]
+target-version = ["py39", "py310", "py311", "py312"]

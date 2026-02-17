@@ -224,7 +224,7 @@ def interactive_roi_selection(image: NDArray[np.uint8]) -> list[tuple[int, int, 
 
         # Launch interactive ROI selection
         # Returns (x, y, w, h) or (0, 0, 0, 0) if cancelled
-        box: tuple[int, int, int, int] = cv2.selectROI(
+        box = cv2.selectROI(
             WINDOW_SELECT,
             display_image,
             fromCenter=False,
@@ -343,7 +343,7 @@ def load_image(image_path: str) -> NDArray[np.uint8]:
 
     try:
         # Use Pillow to load image - it handles ICC profiles correctly
-        pil_image = Image.open(str(path))
+        pil_image: Image.Image = Image.open(str(path))
 
         # Store metadata for preservation when saving
         _image_metadata = {
@@ -422,6 +422,7 @@ def save_image(image: NDArray[np.uint8], output_path: Path) -> None:
         raise SystemExit(f"[ERROR] Output directory is not writable: {out_dir}\n        {e}") from e
 
     # Convert from OpenCV BGR/BGRA format back to RGB/RGBA for saving
+    pil_image: Image.Image
     if len(image.shape) == 3:
         if image.shape[2] == 4:
             # BGRA to RGBA
