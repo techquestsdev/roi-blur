@@ -288,11 +288,13 @@ class TestInteractiveRoiSelection:
 
     def test_single_selection_then_quit(self, sample_image: np.ndarray):
         """Test selecting one ROI then quitting."""
-        with patch.object(cv2, "imshow"), patch.object(cv2, "destroyAllWindows"), patch.object(
-            cv2, "rectangle"
-        ), patch.object(cv2, "waitKey") as mock_waitkey, patch.object(
-            cv2, "selectROI"
-        ) as mock_select:
+        with (
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "destroyAllWindows"),
+            patch.object(cv2, "rectangle"),
+            patch.object(cv2, "waitKey") as mock_waitkey,
+            patch.object(cv2, "selectROI") as mock_select,
+        ):
 
             # First selectROI returns a valid box, then waitKey returns 'q'
             mock_select.return_value = (10, 20, 30, 40)
@@ -306,11 +308,13 @@ class TestInteractiveRoiSelection:
 
     def test_cancelled_selection_ignored(self, sample_image: np.ndarray):
         """Test that cancelled selections (0,0,0,0) are ignored."""
-        with patch.object(cv2, "imshow"), patch.object(cv2, "destroyAllWindows"), patch.object(
-            cv2, "rectangle"
-        ), patch.object(cv2, "waitKey") as mock_waitkey, patch.object(
-            cv2, "selectROI"
-        ) as mock_select:
+        with (
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "destroyAllWindows"),
+            patch.object(cv2, "rectangle"),
+            patch.object(cv2, "waitKey") as mock_waitkey,
+            patch.object(cv2, "selectROI") as mock_select,
+        ):
 
             # Return empty selection (loop again), then valid, then quit
             mock_select.side_effect = [(0, 0, 0, 0), (10, 20, 30, 40)]
@@ -325,11 +329,13 @@ class TestInteractiveRoiSelection:
 
     def test_undo_removes_last_roi(self, sample_image: np.ndarray):
         """Test that 'u' key undoes the last ROI."""
-        with patch.object(cv2, "imshow"), patch.object(cv2, "destroyAllWindows"), patch.object(
-            cv2, "rectangle"
-        ), patch.object(cv2, "waitKey") as mock_waitkey, patch.object(
-            cv2, "selectROI"
-        ) as mock_select:
+        with (
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "destroyAllWindows"),
+            patch.object(cv2, "rectangle"),
+            patch.object(cv2, "waitKey") as mock_waitkey,
+            patch.object(cv2, "selectROI") as mock_select,
+        ):
 
             # Select first box, continue, select second box, undo second, then quit
             # After undo, the loop continues and calls selectROI again
@@ -348,11 +354,13 @@ class TestInteractiveRoiSelection:
 
     def test_undo_on_empty_list(self, sample_image: np.ndarray):
         """Test that undo on empty list doesn't crash."""
-        with patch.object(cv2, "imshow"), patch.object(cv2, "destroyAllWindows"), patch.object(
-            cv2, "rectangle"
-        ), patch.object(cv2, "waitKey") as mock_waitkey, patch.object(
-            cv2, "selectROI"
-        ) as mock_select:
+        with (
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "destroyAllWindows"),
+            patch.object(cv2, "rectangle"),
+            patch.object(cv2, "waitKey") as mock_waitkey,
+            patch.object(cv2, "selectROI") as mock_select,
+        ):
 
             # Cancelled selection, undo on empty, then another cancelled, then quit
             mock_select.side_effect = [(0, 0, 0, 0), (0, 0, 0, 0)]
@@ -366,11 +374,13 @@ class TestInteractiveRoiSelection:
 
     def test_multiple_selections_then_quit(self, sample_image: np.ndarray):
         """Test selecting multiple ROIs then quitting."""
-        with patch.object(cv2, "imshow"), patch.object(cv2, "destroyAllWindows"), patch.object(
-            cv2, "rectangle"
-        ), patch.object(cv2, "waitKey") as mock_waitkey, patch.object(
-            cv2, "selectROI"
-        ) as mock_select:
+        with (
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "destroyAllWindows"),
+            patch.object(cv2, "rectangle"),
+            patch.object(cv2, "waitKey") as mock_waitkey,
+            patch.object(cv2, "selectROI") as mock_select,
+        ):
 
             mock_select.side_effect = [(10, 20, 30, 40), (50, 60, 20, 20)]
             mock_waitkey.side_effect = [
@@ -643,9 +653,12 @@ class TestCLIIntegration:
         """Test basic CLI execution with mocked interactive selection."""
         output_path = tmp_path / "cli_output.png"
 
-        with patch.object(roi_blur, "interactive_roi_selection") as mock_select, patch.object(
-            cv2, "imshow"
-        ), patch.object(cv2, "waitKey", return_value=0), patch.object(cv2, "destroyAllWindows"):
+        with (
+            patch.object(roi_blur, "interactive_roi_selection") as mock_select,
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "waitKey", return_value=0),
+            patch.object(cv2, "destroyAllWindows"),
+        ):
             mock_select.return_value = [(10, 10, 30, 30)]
 
             # Run main with arguments
@@ -662,9 +675,12 @@ class TestCLIIntegration:
         """Test CLI when no ROIs are selected."""
         output_path = tmp_path / "cli_output.png"
 
-        with patch.object(roi_blur, "interactive_roi_selection") as mock_select, patch.object(
-            cv2, "imshow"
-        ), patch.object(cv2, "waitKey", return_value=0), patch.object(cv2, "destroyAllWindows"):
+        with (
+            patch.object(roi_blur, "interactive_roi_selection") as mock_select,
+            patch.object(cv2, "imshow"),
+            patch.object(cv2, "waitKey", return_value=0),
+            patch.object(cv2, "destroyAllWindows"),
+        ):
             mock_select.return_value = []  # No ROIs selected
 
             # Should complete and save unmodified image
