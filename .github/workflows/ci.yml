@@ -99,7 +99,7 @@ jobs:
           enable-cache: true
 
       - name: Run Bandit security linter
-        run: uvx bandit -r roi_blur.py -f sarif -o bandit-results.sarif || true
+        run: uvx --with bandit-sarif-formatter bandit -r roi_blur.py -f sarif -o bandit-results.sarif || true
 
       - name: Upload Bandit results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
