@@ -1,7 +1,7 @@
 # ROI Blur
 
 [![CI](https://github.com/techquestsdev/roi-blur/actions/workflows/ci.yml/badge.svg)](https://github.com/techquestsdev/roi-blur/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/roi-blur.svg)](https://pypi.org/techquestsdev/roi-blur/)
+[![PyPI](https://img.shields.io/pypi/v/roi-blur.svg)](https://pypi.org/project/roi-blur/)
 [![License](https://img.shields.io/github/license/techquestsdev/roi-blur.svg)](LICENSE)
 
 A simple, interactive OpenCV-based utility for selecting regions of interest (ROIs) in an image and applying Gaussian blur to those regions. Perfect for privacy redaction, hiding sensitive information, or creative effects.
